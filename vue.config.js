@@ -7,8 +7,8 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 // 是否为生产环境
 const isProduction = process.env.NODE_ENV !== 'development'
 
-// 本地环境是否需要使用cdn
-const devNeedCdn = false
+// 本地环境是否需要使用cdn js
+const devNeedCdn = true
 
 // cdn链接
 const cdn = {
@@ -16,15 +16,25 @@ const cdn = {
     externals: {
         vue: 'Vue',
         vuex: 'Vuex',
-        'vue-router': 'VueRouter'
+        'vue-router': 'VueRouter',
+        'element-ui': 'ELEMENT',
+        axios: 'axios',
+        clipboard: 'ClipboardJS',
+        'js-cookie': 'Cookies',
+        quill: 'Quill'
     },
     // cdn的css链接
-    css: [],
+    css: ['https://cdn.staticfile.org/element-ui/2.11.1/theme-chalk/index.css'],
     // cdn的js链接
     js: [
         'https://cdn.staticfile.org/vue/2.6.10/vue.min.js',
         'https://cdn.staticfile.org/vuex/3.0.1/vuex.min.js',
-        'https://cdn.staticfile.org/vue-router/3.0.3/vue-router.min.js'
+        'https://cdn.staticfile.org/vue-router/3.0.3/vue-router.min.js',
+        'https://cdn.staticfile.org/element-ui/2.11.1/index.js',
+        'https://cdn.staticfile.org/axios/0.19.0/axios.min.js',
+        'https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js',
+        'https://cdn.staticfile.org/js-cookie/2.2.0/js.cookie.min.js',
+        'https://cdn.staticfile.org/quill/1.3.6/quill.min.js'
     ]
 }
 
@@ -50,8 +60,12 @@ module.exports = {
 
         // ============注入cdn start============
         config.plugin('html').tap(args => {
-            // 生产环境或本地需要cdn时，才注入cdn
-            if (isProduction || devNeedCdn) args[0].cdn = cdn
+            args[0].cdn = {}
+            // cdn css 无论在本地还是生产，都会注入
+            if (cdn.css.length) args[0].cdn.css = cdn.css
+
+            // 生产环境或本地需要cdn时，才注入cdn js
+            if (isProduction || devNeedCdn) args[0].cdn.js = cdn.js
             return args
         })
         // ============注入cdn start============

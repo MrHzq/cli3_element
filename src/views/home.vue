@@ -2,7 +2,7 @@
  * @Author: hzq
  * @Date: 2019-07-29 11:38:28
  * @Last Modified by: hzq
- * @Last Modified time: 2019-07-30 13:57:11
+ * @Last Modified time: 2019-07-31 10:31:20
  * @文件说明: 首页
  */
 <template>
@@ -19,6 +19,9 @@
         <hello-world/>
         <h-bgi/>
         <h-hover>h-hover</h-hover>
+        <h-radio></h-radio>
+        <h-search v-model="das" /> {{das}}
+        <h-button type="primary" w="200">element button</h-button>
     </div>
 </template>
 
@@ -26,7 +29,7 @@
     export default {
         name: 'home',
         data() {
-            return {}
+            return { das: '' }
         },
         created() {
             console.log(this.$api)
